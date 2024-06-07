@@ -1,0 +1,4 @@
+[URL]
+base = "https://api.egytech.fyi"
+participants = "https://api.egytech.fyi/participants"
+stats = "https://api.egytech.fyi/stats"
