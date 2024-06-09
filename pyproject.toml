@@ -10,7 +10,7 @@ include = [
 
 [project]
 name = "egytech_fyi_wrapper"
-version = "1.1.9"
+version = "1.2.0"
 authors = [{name="Abdulrahman Mustafa Abdulrahman", email="abdulrahman.m.khaled@outlook.com"}]
 description = "A Python API Wrapper for the EgyTech.FYI API"
 license = {file = "LICENSE"}
