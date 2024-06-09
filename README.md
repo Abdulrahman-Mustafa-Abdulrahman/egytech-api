@@ -44,8 +44,13 @@ df = participants.get_df()
 df.head()
 ```
 
-### Full Documentation
+## Full Documentation
 The full documentation can be found [here](https://abdulrahman-mustafa.gitbook.io/egytech-api/).
+
+## Examples
+Example of [`egytech_api.core.PoolingClient`](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/api-reference/poolingclient) Usage in the 
+[docs](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/examples/using-the-pooling-client) 
+and as a [demo notebook](https://deepnote.com/app/abdulrahmans-workspace/EgyTech-FYI-Wrapper-b29d75ab-a623-4f8b-96df-b8c7c8e89535).
 
 
 ## License
