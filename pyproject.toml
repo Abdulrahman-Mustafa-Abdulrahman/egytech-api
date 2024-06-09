@@ -10,15 +10,20 @@ include = [
 
 [project]
 name = "egytech_api"
-version = "1.0.0"
+version = "1.0.1"
 authors = [{name="Abdulrahman Mustafa Abdulrahman", email="abdulrahman.m.khaled@outlook.com"}]
 description = "A Python API Wrapper for the EgyTech.FYI API"
 license = {file = "LICENSE"}
 readme = "README.md"
-requires-python = ">=3.10"
-classifiers = [
-    "Programming Language :: Python :: 3",
+requires-python = ">=3.11"
+keywords = ["egytech", "api", "wrapper", "egytech.fyi", "egytech api"]
+classifiers = ["Development Status :: 3 - Alpha",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -28,3 +33,8 @@ dependencies = [
     "pandas",
     "xlsxwriter",
 ]
+
+[project.urls]
+Documentation = "https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper"
+"Source Code" = "https://github.com/Abdulrahman-Mustafa-Abdulrahman/egytech-api"
+
