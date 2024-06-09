@@ -53,7 +53,7 @@ class Participants(ParticipantsQueryParams):
         Saves the participants DataFrame to an Excel file.
 
     """
-    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
     participants: Optional[pd.DataFrame] = Field(default=None, exclude=True)
 
     def model_post_init(self, __context: Any) -> None:
@@ -196,7 +196,7 @@ class Stats(StatsQueryParams):
         Saves the buckets DataFrame to an Excel file.
 
     """
-    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
     stats: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     buckets: Optional[pd.DataFrame] = Field(default=None, exclude=True)
 
@@ -314,7 +314,7 @@ class PoolingClient(BaseModel):
         Saves the aggregated participants DataFrame to an Excel file.
 
     """
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
     dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
 

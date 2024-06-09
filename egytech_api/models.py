@@ -1,5 +1,5 @@
 from enum import Enum, IntEnum
-from pydantic import BaseModel, conint, PlainSerializer
+from pydantic import BaseModel, conint, PlainSerializer, ConfigDict
 from typing import Optional
 from typing_extensions import Annotated
 
@@ -107,21 +107,36 @@ IncludeType = Annotated[bool, PlainSerializer(lambda x: "true" if x else "false"
 
 class ParticipantsQueryParams(BaseModel):
     """Model for the query parameters of the participants endpoint of the API.
-    Attributes:
-    title: TitleEnum - The job title of the participants.
-    level: LevelEnum - The job level of the participants.
-    min_yoe: int - The minimum years of experience of the participants.
-    max_yoe: int - The maximum years of experience of the participants.
-    gender: GenderEnum - The gender of the participants.
-    cs_degree: DegreeType - Whether the participants have a computer science degree.
-    business_market: BusinessMarketEnum - The market scope of the business of the participants.
-    business_size: BusinessSizeEnum - The size of the business of the participants.
-    business_focus: BusinessFocusEnum - The focus of the business of the participants.
-    business_line: BusinessLineEnum - The line of business of the participants.
-    include_relocated: IncludeType - Whether to include participants who have relocated.
-    include_remote_abroad: IncludeType - Whether to include participants who are remote abroad.
+
+    Attributes
+    ----------
+    title : TitleEnum
+        The job title of the participants.
+    level : LevelEnum
+        The job level of the participants.
+    min_yoe : int
+        The minimum years of experience of the participants.
+    max_yoe : int
+        The maximum years of experience of the participants.
+    gender : GenderEnum
+        The gender of the participants.
+    cs_degree : DegreeType
+        Whether the participants have a computer science degree.
+    business_market : BusinessMarketEnum
+        The market scope of the business of the participants.
+    business_size : BusinessSizeEnum
+        The size of the business of the participants.
+    business_focus : BusinessFocusEnum
+        The focus of the business of the participants.
+    business_line : BusinessLineEnum
+        The line of business of the participants.
+    include_relocated : IncludeType
+        Whether to include participants who have relocated.
+    include_remote_abroad : IncludeType
+        Whether to include participants who are remote abroad.
 
     """
+    model_config = ConfigDict(extra='forbid')
     title: Optional[TitleEnum] = None
     level: Optional[LevelEnum] = None
     min_yoe: Optional[conint(strict=True, ge=0, le=20)] = None
@@ -138,20 +153,38 @@ class ParticipantsQueryParams(BaseModel):
 
 class StatsQueryParams(ParticipantsQueryParams):
     """Model for the query parameters of the stats endpoint of the API.
-        Attributes:
-        title: TitleEnum - The job title of the participants.
-        level: LevelEnum - The job level of the participants.
-        min_yoe: int - The minimum years of experience of the participants.
-        max_yoe: int - The maximum years of experience of the participants.
-        gender: GenderEnum - The gender of the participants.
-        cs_degree: DegreeType - Whether the participants have a computer science degree.
-        business_market: BusinessMarketEnum - The market scope of the business of the participants.
-        business_size: BusinessSizeEnum - The size of the business of the participants.
-        business_focus: BusinessFocusEnum - The focus of the business of the participants.
-        business_line: BusinessLineEnum - The line of business of the participants.
-        include_relocated: IncludeType - Whether to include participants who have relocated.
-        include_remote_abroad: IncludeType - Whether to include participants who are remote abroad.
-        programming_language: ProgrammingLanguageEnum - The programming language of the participants.
+
+    Attributes
+    ----------
+    title : TitleEnum
+        The job title of the participants.
+    level : LevelEnum
+        The job level of the participants.
+    min_yoe : int
+        The minimum years of experience of the participants.
+    max_yoe : int
+        The maximum years of experience of the participants.
+    gender : GenderEnum
+        The gender of the participants.
+    cs_degree : DegreeType
+        Whether the participants have a computer science degree.
+    business_market : BusinessMarketEnum
+        The market scope of the business of the participants.
+    business_size : BusinessSizeEnum
+        The size of the business of the participants.
+    business_focus : BusinessFocusEnum
+        The focus of the business of the participants.
+    business_line : BusinessLineEnum
+        The line of business of the participants.
+    include_relocated : IncludeType
+        Whether to include participants who have relocated.
+    include_remote_abroad : IncludeType
+        Whether to include participants who are remote abroad.
+
+    programming_language : ProgrammingLanguageEnum
+        The programming language of the participants.
 
         """
+    model_config = ConfigDict(extra='forbid')
+
     programming_language: Optional[ProgrammingLanguageEnum] = None
