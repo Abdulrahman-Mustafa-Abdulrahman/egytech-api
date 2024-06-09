@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "/egytech_fyi_wrapper/*.py",
-  "/tests", "/egytech_fyi_wrapper/config.toml",
+  "/egytech_api/*.py",
+  "/tests",
 ]
 
 [project]
-name = "egytech_fyi_wrapper"
-version = "1.2.0"
+name = "egytech_api"
+version = "1.0.0"
 authors = [{name="Abdulrahman Mustafa Abdulrahman", email="abdulrahman.m.khaled@outlook.com"}]
 description = "A Python API Wrapper for the EgyTech.FYI API"
 license = {file = "LICENSE"}
