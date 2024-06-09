@@ -5,6 +5,7 @@ from typing_extensions import Annotated
 
 
 class TitleEnum(str, Enum):
+    """Enum for the job title of participants retrieved from the API."""
     ai_automation = 'ai_automation'
     backend = 'backend'
     crm = 'crm'
@@ -31,6 +32,7 @@ class TitleEnum(str, Enum):
 
 
 class LevelEnum(str, Enum):
+    """Enum for the job level of participants retrieved from the API."""
     c_level = 'c_level'
     director = 'director'
     group_product_manager = 'group_product_manager'
@@ -49,39 +51,40 @@ class LevelEnum(str, Enum):
 
 
 class GenderEnum(str, Enum):
+    """Enum for the gender of participants retrieved from the API."""
     male = "male"
     female = "female"
 
 
-class DegreeEnum(str, Enum):
-    cs = "yes"
-    non_cs = "no"
-
-
 class BusinessMarketEnum(str, Enum):
+    """Enum for the market scope of the business of participants retrieved from the API."""
     global_market = "global"
     regional_market = "regional"
     local_market = "local"
 
 
 class BusinessSizeEnum(str, Enum):
+    """Enum for the size of the business of participants retrieved from the API."""
     large = "large"
     medium = "medium"
     small = "small"
 
 
 class BusinessFocusEnum(str, Enum):
+    """Enum for the focus of the business of participants retrieved from the API."""
     product = "product"
     software = "software_house"
 
 
 class BusinessLineEnum(str, Enum):
+    """Enum for the line of business of participants retrieved from the API."""
     b2b = "b2b"
     b2c = "b2c"
     both = "both"
 
 
 class ProgrammingLanguageEnum(str, Enum):
+    """Enum for the programming language of participants retrieved from the API."""
     javascript = "java_script"
     typescript = "type_script"
     python = "python"
@@ -103,6 +106,22 @@ IncludeType = Annotated[bool, PlainSerializer(lambda x: "true" if x else "false"
 
 
 class ParticipantsQueryParams(BaseModel):
+    """Model for the query parameters of the participants endpoint of the API.
+    Attributes:
+    title: TitleEnum - The job title of the participants.
+    level: LevelEnum - The job level of the participants.
+    min_yoe: int - The minimum years of experience of the participants.
+    max_yoe: int - The maximum years of experience of the participants.
+    gender: GenderEnum - The gender of the participants.
+    cs_degree: DegreeType - Whether the participants have a computer science degree.
+    business_market: BusinessMarketEnum - The market scope of the business of the participants.
+    business_size: BusinessSizeEnum - The size of the business of the participants.
+    business_focus: BusinessFocusEnum - The focus of the business of the participants.
+    business_line: BusinessLineEnum - The line of business of the participants.
+    include_relocated: IncludeType - Whether to include participants who have relocated.
+    include_remote_abroad: IncludeType - Whether to include participants who are remote abroad.
+
+    """
     title: Optional[TitleEnum] = None
     level: Optional[LevelEnum] = None
     min_yoe: Optional[conint(strict=True, ge=0, le=20)] = None
@@ -118,4 +137,21 @@ class ParticipantsQueryParams(BaseModel):
 
 
 class StatsQueryParams(ParticipantsQueryParams):
+    """Model for the query parameters of the stats endpoint of the API.
+        Attributes:
+        title: TitleEnum - The job title of the participants.
+        level: LevelEnum - The job level of the participants.
+        min_yoe: int - The minimum years of experience of the participants.
+        max_yoe: int - The maximum years of experience of the participants.
+        gender: GenderEnum - The gender of the participants.
+        cs_degree: DegreeType - Whether the participants have a computer science degree.
+        business_market: BusinessMarketEnum - The market scope of the business of the participants.
+        business_size: BusinessSizeEnum - The size of the business of the participants.
+        business_focus: BusinessFocusEnum - The focus of the business of the participants.
+        business_line: BusinessLineEnum - The line of business of the participants.
+        include_relocated: IncludeType - Whether to include participants who have relocated.
+        include_remote_abroad: IncludeType - Whether to include participants who are remote abroad.
+        programming_language: ProgrammingLanguageEnum - The programming language of the participants.
+
+        """
     programming_language: Optional[ProgrammingLanguageEnum] = None
