@@ -1,5 +1,5 @@
 from enum import Enum, IntEnum
-from pydantic import BaseModel, conint, PlainSerializer, ConfigDict
+from pydantic import BaseModel, conint, PlainSerializer, ConfigDict, Field
 from typing import Optional
 from typing_extensions import Annotated
 
@@ -115,9 +115,9 @@ class ParticipantsQueryParams(BaseModel):
     level : LevelEnum
         The job level of the participants.
     min_yoe : int
-        The minimum years of experience of the participants.
+        The minimum years of experience of the participants. This is serialized as `yoe_from_included`.
     max_yoe : int
-        The maximum years of experience of the participants.
+        The maximum years of experience of the participants. This is serialized as `yoe_to_excluded`.
     gender : GenderEnum
         The gender of the participants.
     cs_degree : DegreeType
@@ -139,8 +139,8 @@ class ParticipantsQueryParams(BaseModel):
     model_config = ConfigDict(extra='forbid')
     title: Optional[TitleEnum] = None
     level: Optional[LevelEnum] = None
-    min_yoe: Optional[conint(strict=True, ge=0, le=20)] = None
-    max_yoe: Optional[conint(strict=True, ge=1, le=26)] = None
+    min_yoe: Optional[conint(strict=True, ge=0, le=20)] = Field(default=None, serialization_alias="yoe_from_included")
+    max_yoe: Optional[conint(strict=True, ge=1, le=26)] = Field(default=None, serialization_alias="yoe_to_excluded")
     gender: Optional[GenderEnum] = None
     cs_degree: Optional[DegreeType] = None
     business_market: Optional[BusinessMarketEnum] = None
