@@ -1,92 +1,45 @@
 import pytest
 from .models import ParticipantsQueryParams, StatsQueryParams
+from pydantic import ValidationError
+from contextlib import nullcontext
 
 
+@pytest.mark.parametrize("normal, expected",
+                         [({"title": "backend", "min_yoe": 2, "business_line": "b2b"},
+                           nullcontext(ParticipantsQueryParams(
+                               title="backend",
+                               min_yoe=2,
+                               business_line="b2b"
+                           ))),
+                          ({"title": "frontend", "level": "intern", "max_yoe": 0}, pytest.raises(ValidationError)),
+                          ({"programming_language": "python"}, pytest.raises(ValidationError)),
+                          ({"title": ["backend"]}, pytest.raises(ValidationError)),
+                          ({"wrong_field": "backend"}, pytest.raises(ValueError)),
+                          ])
 class TestParticipantsQueryParams:
 
-    def test_model_creation_and_deserialization_empty(self):
-        participants = ParticipantsQueryParams()
-        assert participants.model_dump(mode="json", exclude_none=True) == {}
-
-    def test_model_creation_and_deserialization_with_params(self):
-        participants = ParticipantsQueryParams(
-            title="data_engineer",
-            level="senior",
-            min_yoe=2,
-            max_yoe=5
-        )
-        assert participants.model_dump(mode="json", exclude_none=True) == {
-            "title": "data_engineer",
-            "level": "senior",
-            "min_yoe": 2,
-            "max_yoe": 5
-        }
-
-    def test_model_creation_and_deserialization_with_wrong_enums(self):
-        with pytest.raises(ValueError):
-            ParticipantsQueryParams(
-                title="wrong_data",
-                level="senoir",
-                min_yoe=27,
-                max_yoe=27,
-            )
-
-    def test_model_creation_and_deserialization_with_wrong_types(self):
-        with pytest.raises(ValueError):
-            ParticipantsQueryParams(
-                title=["data_engineer"],
-                level="intern",
-                min_yoe=2,
-                max_yoe=5,
-            )
-
-    def test_model_creation_and_deserialization_with_wrong_fields(self):
-        with pytest.raises(ValueError):
-            ParticipantsQueryParams(
-                programming_language="python"
-            )
+    def test_model_creation(self, normal, expected):
+        with expected as e:
+            participants = ParticipantsQueryParams(**normal)
+            assert participants == e
 
 
+@pytest.mark.parametrize("normal, expected",
+                         [({"title": "backend", "min_yoe": 2, "business_line": "b2b"},
+                           nullcontext(StatsQueryParams(
+                               title="backend",
+                               min_yoe=2,
+                               business_line="b2b"
+                           ))),
+                          ({"title": "frontend", "level": "intern", "max_yoe": 0}, pytest.raises(ValueError)),
+                          ({"programming_language": "python"},
+                           nullcontext(StatsQueryParams(programming_language="python"))),
+                          ({"title": ["backend"]}, pytest.raises(ValidationError)),
+                          ({"wrong_field": "backend"}, pytest.raises(ValueError)),
+                          ])
 class TestStatsQueryParams:
 
-    def test_model_creation_and_deserialization_empty(self):
-        stats = StatsQueryParams()
-        assert stats.model_dump(mode="json", exclude_none=True) == {}
-
-    def test_model_creation_and_deserialization_with_params(self):
-        stats = StatsQueryParams(
-            title="data_engineer",
-            level="senior",
-            min_yoe=2,
-            max_yoe=5
-        )
-        assert stats.model_dump(mode="json", exclude_none=True) == {
-            "title": "data_engineer",
-            "level": "senior",
-            "min_yoe": 2,
-            "max_yoe": 5
-        }
-
-    def test_model_creation_and_deserialization_with_wrong_enums(self):
-        with pytest.raises(ValueError):
-            StatsQueryParams(
-                title="wrong_data",
-                level="senoir",
-                min_yoe=27,
-                max_yoe=27,
-            )
-
-    def test_model_creation_and_deserialization_with_wrong_types(self):
-        with pytest.raises(ValueError):
-            StatsQueryParams(
-                title=["data_engineer"],
-                level="intern",
-                min_yoe=2,
-                max_yoe=5,
-            )
-
-    def test_model_creation_and_deserialization_with_wrong_fields(self):
-        with pytest.raises(ValueError):
-            StatsQueryParams(
-                wrong_field="python"
-            )
+    def test_model_creation(self, normal, expected):
+        with expected as e:
+            stats = StatsQueryParams(**normal)
+            assert stats == e
