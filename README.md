@@ -55,7 +55,7 @@ and as a [demo notebook](https://deepnote.com/app/abdulrahmans-workspace/EgyTech
 
 ## To-Do
 - Implement query response deserialization with pydantic models, leveraging fast type-safe deserialization as well as greater dumping flexibility. 
-- Implement an asnyc-compatible PoolingClient, allowing for even faster performance with multiple asynchronous API calls.
+- Implement an async-compatible PoolingClient, allowing for even faster performance with multiple asynchronous API calls.
 - Make user imports for basic usage more developer-friendly.
 - Implement other formats of data output (differently formatted DataFrame, ability to exclude and rename columns, ability to report na values across columns on client initialization among other features).
 - Implement oauth2.0-compliant auth flow within the wrapper for future usage (in case the api implements auth in the future).
