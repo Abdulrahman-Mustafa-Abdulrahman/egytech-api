@@ -53,6 +53,14 @@ Example of [`egytech_api.core.PoolingClient`](https://abdulrahman-mustafa.gitboo
 and as a [demo notebook](https://deepnote.com/app/abdulrahmans-workspace/EgyTech-FYI-Wrapper-b29d75ab-a623-4f8b-96df-b8c7c8e89535).
 
 
+## To-Do
+- Implement query response deserialization with pydantic models, leveraging fast type-safe deserialization as well as greater dumping flexibility. 
+- Implement an asnyc-compatible PoolingClient, allowing for even faster performance with multiple asynchronous API calls.
+- Make user imports for basic usage more developer-friendly.
+- Implement other formats of data output (differently formatted DataFrame, ability to exclude and rename columns, ability to report na values across columns on client initialization among other features).
+- Implement oauth2.0-compliant auth flow within the wrapper for future usage (in case the api implements auth in the future).
+- Implement logging and custom error handling for better diagnostics. 
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details
