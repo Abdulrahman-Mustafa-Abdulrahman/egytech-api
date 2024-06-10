@@ -48,9 +48,15 @@ df.head()
 The full documentation can be found [here](https://abdulrahman-mustafa.gitbook.io/egytech-api/).
 
 ## Examples
-Example of [`egytech_api.core.PoolingClient`](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/api-reference/poolingclient) usage in the 
-[docs](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/examples/using-the-pooling-client) 
+
+- Example
+  of [`egytech_api.core.PoolingClient`](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/api-reference/poolingclient)
+  usage in the
+  [docs](https://abdulrahman-mustafa.gitbook.io/egytech-fyi-python-wrapper/reference/examples/using-the-pooling-client) 
 and as a [demo notebook](https://deepnote.com/app/abdulrahmans-workspace/EgyTech-FYI-Wrapper-b29d75ab-a623-4f8b-96df-b8c7c8e89535).
+- This Colab notebook demonstrates how significantly using connection pooling alone or asynchronously can improve
+  response time. Review
+  results [here](https://colab.research.google.com/drive/1cRAMJvDTg3O3Le9FzXaCirh6C__fUehc?usp=sharing).
 
 
 ## To-Do
