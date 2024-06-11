@@ -1,9 +1,12 @@
-import tomli
-from .models import *
-from typing import Optional, Dict, Any, ClassVar, Union, Self
+import asyncio
+import asyncio
+import itertools
+from typing import Dict, Any
+
 import httpx
 import pandas as pd
-from pydantic import BaseModel, Field, computed_field, ConfigDict, model_validator
+
+from models import *
 
 
 class Participants(ParticipantsQueryParams):
@@ -359,6 +362,118 @@ class PoolingClient(BaseModel):
                 responses.extend(list(deser_response.values())[-1])
 
         self.dataframe = pd.DataFrame.from_records(responses)
+
+    def get_df(self):
+        """Returns the pandas.DataFrame of the aggregated participants from all the given queries.
+
+        Returns
+        -------
+        pd.DataFrame
+
+        """
+        return self.dataframe
+
+    def save_csv(self, filename: str):
+        """Saves the aggregated participants DataFrame to a CSV file.
+
+        Parameters
+        ----------
+        filename : str
+            The filename to save the CSV file to. This should not include the file extension.
+            Example: "participants" would lead to a file named "participants.csv".
+
+        Returns
+        -------
+        None
+
+        """
+        self.dataframe.to_csv(filename + ".csv", index=False)
+
+    def save_excel(self, filename: str):
+        """Saves the aggregated participants DataFrame to an Excel file.
+
+        Parameters
+        ----------
+        filename : str
+            The filename to save the Excel file to. This should not include the file extension.
+            Example: "participants" would lead to a file named "participants.xlsx".
+
+        Returns
+        -------
+        None
+
+        """
+        self.dataframe.to_excel(filename + ".xlsx", index=False, engine="xlsxwriter")
+
+
+class AsyncPoolingClient(BaseModel):
+    """Class for asynchronously pooling multiple API calls with different query parameters into one object.
+
+    Attributes
+    ----------
+    queries : list[ParticipantsQueryParams]
+        The list of query parameters for the participants endpoint.
+    dataframe : pd.DataFrame
+        The resulting pandas.DataFrame of the participants from the API Call.
+
+    Methods
+    -------
+    model_post_init(__context: Any)
+        Placeholder that calls make_calls() after initialization of the proper
+        pydantic model for the available query parameters correctly.
+    make_calls()
+        Asynchronously executes the API calls with the given query parameters while using connection pooling.
+    get_df()
+        Returns the pandas.DataFrame of the aggregated participants from all the given queries.
+    save_csv(filename: str)
+        Saves the aggregated participants DataFrame to a CSV file.
+    save_excel(filename: str)
+        Saves the aggregated participants DataFrame to an Excel file.
+
+    """
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
+    queries: list[ParticipantsQueryParams] = Field(exclude=True)
+    dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+
+    def model_post_init(self, __context: Any) -> None:
+        """Placeholder that calls make_calls() after initialization of the proper pydantic model for the
+        available query parameters correctly.
+
+        Parameters
+        ----------
+        __context : Any
+
+        Returns
+        -------
+        None
+
+        """
+        asyncio.run(self.make_calls())
+
+    async def make_calls(self):
+        """Asynchronously Executes the API calls with the given query parameters.
+
+                Returns
+                -------
+                None
+
+                """
+
+        async def make_single_call(query: ParticipantsQueryParams, c: httpx.AsyncClient):
+            response = await c.get("participants",
+                                   params=query.model_dump(mode="json", exclude_none=True)
+                                   )
+            if response.status_code != 200:
+                raise Exception("Unsuccessful API Call")
+            return response.json()["results"]
+
+        headers = {"accept": "application/json"}
+        client = httpx.AsyncClient(base_url="https://api.egytech.fyi/", headers=headers)
+        responses = await asyncio.gather(*map(make_single_call, self.queries, itertools.repeat(client)))
+        results = itertools.chain(*responses)
+        await client.aclose()
+
+        self.dataframe = pd.DataFrame.from_records(results)
 
     def get_df(self):
         """Returns the pandas.DataFrame of the aggregated participants from all the given queries.

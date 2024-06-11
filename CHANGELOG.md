@@ -1,5 +1,12 @@
 # CHANGELOG.md
 
+## 1.0.3 (2024-)
+
+### Features:
+
+- Our `AsyncPoolingClient` is finally here!. You can now make multiple API calls asynchronously
+  and using connection pooling. This is a **huge performance boost** for your scripts -> [](()
+
 ## 1.0.2 (2024-06-10)
 
 ### Features:
