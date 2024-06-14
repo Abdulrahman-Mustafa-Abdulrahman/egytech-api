@@ -1,0 +1,4 @@
+[build.targets.sdist]
+include = [
+    "/egytech_api/*.py",
+]
