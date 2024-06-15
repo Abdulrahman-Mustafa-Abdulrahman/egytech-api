@@ -217,7 +217,7 @@ class Stats(StatsQueryParams):
         """
         self.execute_call()
 
-    def execute_call(self):
+    def execute_call(self) -> None:
         """Executes the API call with the given query parameters during model initialization.
 
         Returns
@@ -244,7 +244,7 @@ class Stats(StatsQueryParams):
         )
         self._stats = deser_response["stats"]
 
-    def get_stats(self):
+    def get_stats(self) -> Dict[str, str]:
         """Returns the statistics from the API Call.
 
         Returns
@@ -254,7 +254,7 @@ class Stats(StatsQueryParams):
         """
         return self._stats
 
-    def get_df(self):
+    def get_df(self) -> pd.DataFrame:
         """Returns the pandas.DataFrame of the buckets.
 
         Returns
@@ -340,7 +340,7 @@ class PoolingClient(BaseModel):
         """
         self.make_calls()
 
-    def make_calls(self):
+    def make_calls(self) -> None:
         """Executes the API calls with the given query parameters.
 
         Returns
@@ -370,7 +370,7 @@ class PoolingClient(BaseModel):
 
         self._dataframe = pd.DataFrame.from_records(responses)
 
-    def get_df(self):
+    def get_df(self) -> pd.DataFrame:
         """Returns the pandas.DataFrame of the aggregated participants from all the given queries.
 
         Returns
@@ -387,7 +387,7 @@ class PoolingClient(BaseModel):
 
         Parameters
         ----------
-        filename : str
+        filename : str = "pooled_participants_results"
             The filename to save the CSV file to. This should not include the file extension.
             Example: "participants" would lead to a file named "participants.csv".
 
@@ -459,7 +459,7 @@ class AsyncPoolingClient(BaseModel):
         """
         asyncio.run(self.make_calls())
 
-    async def make_calls(self):
+    async def make_calls(self) -> None:
         """Asynchronously Executes the API calls with the given query parameters.
 
         Returns
