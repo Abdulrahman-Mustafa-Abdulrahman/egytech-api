@@ -1,7 +1,9 @@
-import pytest
-from .models import ParticipantsQueryParams, StatsQueryParams
-from pydantic import ValidationError
 from contextlib import nullcontext
+
+import pytest
+from pydantic import ValidationError
+
+from egytech_api.models import ParticipantsQueryParams, StatsQueryParams
 
 
 @pytest.mark.parametrize(
@@ -58,7 +60,6 @@ class TestParticipantsQueryParams:
     ],
 )
 class TestStatsQueryParams:
-
     def test_model_creation(self, normal, expected):
         with expected as e:
             stats = StatsQueryParams(**normal)
