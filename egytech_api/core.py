@@ -50,8 +50,9 @@ class Participants(ParticipantsQueryParams):
     -------
     get_df()
         Returns the pandas.DataFrame of the retrieved participants.
+    save_csv(filename: str="participants")
         Saves the participants DataFrame to a CSV file.
-    save_excel(filename: str)
+    save_excel(filename: str="participants")
         Saves the participants DataFrame to an Excel file.
     """
 
@@ -107,7 +108,7 @@ class Participants(ParticipantsQueryParams):
         """
         return self.participants
 
-    def save_csv(self, filename: str):
+    def save_csv(self, filename: str = "participants") -> None:
         """Saves the participants DataFrame to a CSV file.
 
         Parameters
@@ -122,7 +123,7 @@ class Participants(ParticipantsQueryParams):
         """
         self.participants.to_csv(filename + ".csv", index=False)
 
-    def save_excel(self, filename: str):
+    def save_excel(self, filename: str = "participants") -> None:
         """Saves the participants DataFrame to an Excel file.
 
         Parameters
@@ -187,9 +188,9 @@ class Stats(StatsQueryParams):
         Returns the statistics from the API Call.
     get_df()
         Returns the pandas.DataFrame of the buckets.
-    save_csv(filename: str)
+    save_csv(filename: str="buckets")
         Saves the buckets DataFrame to a CSV file.
-    save_excel(filename: str)
+    save_excel(filename: str="buckets")
         Saves the buckets DataFrame to an Excel file.
     """
     model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
@@ -260,7 +261,7 @@ class Stats(StatsQueryParams):
         """
         return self.buckets
 
-    def save_csv(self, filename: str):
+    def save_csv(self, filename: str) -> None:
         """Saves the buckets DataFrame to a CSV file.
 
         Parameters
@@ -276,7 +277,7 @@ class Stats(StatsQueryParams):
         """
         self.buckets.to_csv(filename + ".csv", index=False)
 
-    def save_excel(self, filename: str):
+    def save_excel(self, filename: str) -> None:
         """Saves the buckets DataFrame to an Excel file.
 
         Parameters
@@ -314,9 +315,9 @@ class PoolingClient(BaseModel):
         Executes the API calls with the given query parameters.
     get_df()
         Returns the pandas.DataFrame of the aggregated participants from all the given queries.
-    save_csv(filename: str)
+    save_csv(filename: str="pooled_participants_results")
         Saves the aggregated participants DataFrame to a CSV file.
-    save_excel(filename: str)
+    save_excel(filename: str="pooled_participants_results")
         Saves the aggregated participants DataFrame to an Excel file.
 
     """
@@ -380,7 +381,9 @@ class PoolingClient(BaseModel):
         """
         return self.dataframe
 
-    def save_csv(self, filename: str):
+    def save_csv(
+            self, filename: str = "pooled_participants_results"
+    ) -> None:
         """Saves the aggregated participants DataFrame to a CSV file.
 
         Parameters
@@ -396,12 +399,14 @@ class PoolingClient(BaseModel):
         """
         self.dataframe.to_csv(filename + ".csv", index=False)
 
-    def save_excel(self, filename: str):
+    def save_excel(
+            self, filename: str = "pooled_participants_results"
+    ) -> None:
         """Saves the aggregated participants DataFrame to an Excel file.
 
         Parameters
         ----------
-        filename : str
+        filename : str = "pooled_participants_results"
             The filename to save the Excel file to. This should not include the file extension.
             Example: "participants" would lead to a file named "participants.xlsx".
 
@@ -429,8 +434,9 @@ class AsyncPoolingClient(BaseModel):
         Returns the pandas.DataFrame of the aggregated participants from all the given queries.
     save_csv(filename: str)
         Returns the `pandas.DataFrame` of the aggregated participants from all the given queries.
+    save_csv(filename: str = "pooled_async_participants_results")
         Saves the aggregated participants DataFrame to a CSV file.
-    save_excel(filename: str)
+    save_excel(filename: str = "pooled_async_participants_results")
         Saves the aggregated participants DataFrame to an Excel file.
 
     """
@@ -496,12 +502,12 @@ class AsyncPoolingClient(BaseModel):
         """
         return self.dataframe
 
-    def save_csv(self, filename: str):
+    def save_csv(self, filename: str) -> None:
         """Saves the aggregated participants DataFrame to a CSV file.
 
         Parameters
         ----------
-        filename : str
+        filename : str = "pooled_async_participants_results"
             The filename to save the CSV file to. This should not include the file extension.
             Example: "participants" would lead to a file named "participants.csv".
 
@@ -517,7 +523,7 @@ class AsyncPoolingClient(BaseModel):
 
         Parameters
         ----------
-        filename : str
+        filename : str = "pooled_async_participants_results"
             The filename to save the Excel file to. This should not include the file extension.
             Example: "participants" would lead to a file named "participants.xlsx".
 
