@@ -15,6 +15,7 @@ xlsxwriter = "^3.2.0"
 pydantic = "^2.7.4"
 ruff = "^0.4.9"
 pytest = "^8.2.2"
+isort = "^5.13.2"
 
 
 [build-system]
