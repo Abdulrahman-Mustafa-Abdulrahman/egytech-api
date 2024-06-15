@@ -1,12 +1,12 @@
 import asyncio
-import asyncio
 import itertools
-from typing import Dict, Any
+from typing import Any, Dict, Optional
 
 import httpx
 import pandas as pd
+from pydantic import BaseModel, ConfigDict, Field
 
-from models import *
+from egytech_api.models import ParticipantsQueryParams, StatsQueryParams
 
 
 class Participants(ParticipantsQueryParams):
