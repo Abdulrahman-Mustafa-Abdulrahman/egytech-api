@@ -10,54 +10,55 @@ from egytech_api.models import ParticipantsQueryParams, StatsQueryParams
 
 
 class Participants(ParticipantsQueryParams):
-    """Class for retrieval of participants from the API with the given query parameters.
+    """Class that acts as a client for retrieval of participants from the API with the given query parameters.
 
     Attributes
     ----------
-    title : TitleEnum
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',
+    'testing', 'ui_ux'}
         The job title of the participants.
-    level : LevelEnum
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',
+    'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
-    min_yoe : int
-        The minimum years of experience of the participants.
-    max_yoe : int
-        The maximum years of experience of the participants.
-    gender : GenderEnum
+    min_yoe : int, optional
+        The minimum years of experience of the participants, must be greater than 0 and lower than 20.
+    max_yoe : int, optional
+        The maximum years of experience of the participants, must be greater than 1 and lower than 26.
+    gender : {None, 'male', 'female'}
         The gender of the participants.
-    cs_degree : DegreeType
+    cs_degree : bool, optional
         Whether the participants have a computer science degree.
-    business_market : BusinessMarketEnum
+    business_market : {None, 'global', 'regional', 'local'}
         The market scope of the business of the participants.
-    business_size : BusinessSizeEnum
+    business_size : {None, 'small', 'medium', 'large'}
         The size of the business of the participants.
-    business_focus : BusinessFocusEnum
+    business_focus : {None, 'product', 'software_house'}
         The focus of the business of the participants.
-    business_line : BusinessLineEnum
+    business_line : {None, 'b2b', 'b2c', 'both'}
         The line of business of the participants.
-    include_relocated : IncludeType
+    include_relocated : bool, optional
         Whether to include participants who have relocated.
-    include_remote_abroad : IncludeType
-        Whether to include participants who are remote abroad.
-    participants : pd.DataFrame
-        This is where the pandas.DataFrame resulting from the API Call is stored.
+    include_remote_abroad : bool, optional
+        Whether to include participants who are work remotely for companies abroad.
+    _participants : pd.DataFrame
+        This is where the pandas.DataFrame resulting from the API Call is stored. It can be accessed using by calling
+        the get_df() method on your instance of the class.
 
     Methods
     -------
-    model_post_init(__context: Any)
-        Placeholder that calls execute_call() on self with given query parameters after initialization of the pydantic
-        model for the available query parameters.
-    execute_call()
-        Executes the API call with the given query parameters.
     get_df()
-        Returns the pandas.DataFrame of the participants.
-    save_csv(filename: str)
+        Returns the pandas.DataFrame of the retrieved participants.
         Saves the participants DataFrame to a CSV file.
     save_excel(filename: str)
         Saves the participants DataFrame to an Excel file.
-
     """
-    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
-    participants: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True, use_enum_values=True, extra="forbid"
+    )
+    _participants: Optional[pd.DataFrame] = None
 
     def model_post_init(self, __context: Any) -> None:
         """
@@ -84,10 +85,11 @@ class Participants(ParticipantsQueryParams):
         url = "https://api.egytech.fyi/participants"
         headers = {"accept": "application/json"}
 
-        response = httpx.get(url,
-                             headers=headers,
-                             params=self.model_dump(mode="json", exclude_none=True)
-                             )
+        response = httpx.get(
+            url,
+            headers=headers,
+            params=self.model_dump(mode="json", exclude_none=True),
+        )
 
         if response.status_code != 200:
             raise Exception("Unsuccessful API Call")
@@ -141,54 +143,46 @@ class Stats(StatsQueryParams):
 
     Attributes
     ----------
-    title : TitleEnum
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',
+    'testing', 'ui_ux'}
         The job title of the participants.
-    level : LevelEnum
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',
+    'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
-    min_yoe : int
-        The minimum years of experience of the participants.
-    max_yoe : int
-        The maximum years of experience of the participants.
-    gender : GenderEnum
+    min_yoe : int, optional
+        The minimum years of experience of the participants, must be greater than 0 and lower than 20.
+    max_yoe : int, optional
+        The maximum years of experience of the participants, must be greater than 1 and lower than 26.
+    gender : {None, 'male', 'female'}
         The gender of the participants.
-    cs_degree : DegreeType
+    cs_degree : bool, optional
         Whether the participants have a computer science degree.
-    business_market : BusinessMarketEnum
+    business_market : {None, 'global', 'regional', 'local'}
         The market scope of the business of the participants.
-    business_size : BusinessSizeEnum
+    business_size : {None, 'small', 'medium', 'large'}
         The size of the business of the participants.
-    business_focus : BusinessFocusEnum
+    business_focus : {None, 'product', 'software_house'}
         The focus of the business of the participants.
-    business_line : BusinessLineEnum
+    business_line : {None, 'b2b', 'b2c', 'both'}
         The line of business of the participants.
-    include_relocated : IncludeType
+    include_relocated : bool, optional
         Whether to include participants who have relocated.
-    include_remote_abroad : IncludeType
-        Whether to include participants who are remote abroad.
-    programming_language : ProgrammingLanguageEnum
+    include_remote_abroad : bool, optional
+        Whether to include participants who are work remotely for companies abroad.
+    programming_language : {None, 'java_script', 'type_script', 'python', 'c_sharp', 'java', 'php', 'c_cplusplus',
+    'kotlin', 'swift', 'dart', 'go', 'r', 'scala', 'rust'}
         The programming language of the participants.
-    stats : Dict[str, str]
-        The statistics from the API Call, including:
-        - totalCount : str
-            The total count of retrieved participants.
-        - median : str
-            The median compensation of retrieved participants.
-        - p20Compensation : str
-            The 20th percentile compensation of retrieved participants.
-        - p75Compensation : str
-            The 75th percentile compensation of retrieved participants.
-        - p90Compensation : str
-            The 90th percentile compensation of retrieved participants.
-    buckets : pd.DataFrame
-        The buckets of compensation of retrieved participants.
+    _stats : Dict[str, str]
+        The dictionary of statistics retrieved from the API Call. This can be accessed by calling the get_stats() method
+        on your instance of the class.
+    _buckets : pd.DataFrame
+        The buckets of compensation of retrieved participants. This can be accessed by calling the get_df() method on
+        your instance of the class.
 
     Methods
     -------
-    model_post_init(__context: Any)
-        Placeholder that calls execute_call() on self with given query parameters after initialization of the pydantic
-        model for the available query parameters.
-    execute_call()
-        Executes the API call with the given query parameters.
     get_stats()
         Returns the statistics from the API Call.
     get_df()
@@ -197,11 +191,14 @@ class Stats(StatsQueryParams):
         Saves the buckets DataFrame to a CSV file.
     save_excel(filename: str)
         Saves the buckets DataFrame to an Excel file.
-
     """
     model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
     stats: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     buckets: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True, use_enum_values=True, extra="forbid"
+    )
 
     def model_post_init(self, __context: Any) -> None:
         """Placeholder that calls execute_call() on self with given query parameters after initialization of the
@@ -229,7 +226,11 @@ class Stats(StatsQueryParams):
         url = "https://api.egytech.fyi/stats"
         headers = {"accept": "application/json"}
 
-        response = httpx.get(url, headers=headers, params=self.model_dump(mode="json", exclude_none=True))
+        response = httpx.get(
+            url,
+            headers=headers,
+            params=self.model_dump(mode="json", exclude_none=True),
+        )
 
         if response.status_code != 200:
             raise Exception("Unsuccessful API Call")
@@ -297,10 +298,12 @@ class PoolingClient(BaseModel):
 
     Attributes
     ----------
-    queries : list[ParticipantsQueryParams]
+    queries : list of `ParticipantsQueryParams`
         The list of query parameters for the participants endpoint.
     dataframe : pd.DataFrame
         The resulting pandas.DataFrame of the participants from the API Call.
+        The resulting pandas.DataFrame of the participants from the API Call. This can be accessed by calling the
+        get_df() method on your instance of the class.
 
     Methods
     -------
@@ -317,6 +320,7 @@ class PoolingClient(BaseModel):
         Saves the aggregated participants DataFrame to an Excel file.
 
     """
+
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
     dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
@@ -350,10 +354,13 @@ class PoolingClient(BaseModel):
         with httpx.Client(base_url=url) as client:
             responses = []
             for query in self.queries:
-                response = client.get("participants",
-                                      headers=headers,
-                                      params=query.model_dump(mode="json", exclude_none=True)
-                                      )
+                response = client.get(
+                    "participants",
+                    headers=headers,
+                    params=query.model_dump(
+                        mode="json", exclude_none=True
+                    ),
+                )
 
                 if response.status_code != 200:
                     raise Exception("Unsuccessful API Call")
@@ -411,26 +418,23 @@ class AsyncPoolingClient(BaseModel):
 
     Attributes
     ----------
-    queries : list[ParticipantsQueryParams]
+    queries : list of `ParticipantsQueryParams`
         The list of query parameters for the participants endpoint.
     dataframe : pd.DataFrame
         The resulting pandas.DataFrame of the participants from the API Call.
 
     Methods
     -------
-    model_post_init(__context: Any)
-        Placeholder that calls make_calls() after initialization of the proper
-        pydantic model for the available query parameters correctly.
-    make_calls()
-        Asynchronously executes the API calls with the given query parameters while using connection pooling.
     get_df()
         Returns the pandas.DataFrame of the aggregated participants from all the given queries.
     save_csv(filename: str)
+        Returns the `pandas.DataFrame` of the aggregated participants from all the given queries.
         Saves the aggregated participants DataFrame to a CSV file.
     save_excel(filename: str)
         Saves the aggregated participants DataFrame to an Excel file.
 
     """
+
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
     dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
@@ -459,23 +463,30 @@ class AsyncPoolingClient(BaseModel):
 
                 """
 
-        async def make_single_call(query: ParticipantsQueryParams, c: httpx.AsyncClient):
-            response = await c.get("participants",
-                                   params=query.model_dump(mode="json", exclude_none=True)
-                                   )
+        async def make_single_call(
+                query: ParticipantsQueryParams, c: httpx.AsyncClient
+        ) -> list[Dict[str, Any]]:
+            response = await c.get(
+                "participants",
+                params=query.model_dump(mode="json", exclude_none=True),
+            )
             if response.status_code != 200:
                 raise Exception("Unsuccessful API Call")
             return response.json()["results"]
 
         headers = {"accept": "application/json"}
-        client = httpx.AsyncClient(base_url="https://api.egytech.fyi/", headers=headers)
-        responses = await asyncio.gather(*map(make_single_call, self.queries, itertools.repeat(client)))
+        client = httpx.AsyncClient(
+            base_url="https://api.egytech.fyi/", headers=headers
+        )
+        responses = await asyncio.gather(
+            *map(make_single_call, self.queries, itertools.repeat(client))
+        )
         results = itertools.chain(*responses)
         await client.aclose()
 
         self.dataframe = pd.DataFrame.from_records(results)
 
-    def get_df(self):
+    def get_df(self) -> pd.DataFrame:
         """Returns the pandas.DataFrame of the aggregated participants from all the given queries.
 
         Returns
@@ -501,7 +512,7 @@ class AsyncPoolingClient(BaseModel):
         """
         self.dataframe.to_csv(filename + ".csv", index=False)
 
-    def save_excel(self, filename: str):
+    def save_excel(self, filename: str) -> None:
         """Saves the aggregated participants DataFrame to an Excel file.
 
         Parameters
