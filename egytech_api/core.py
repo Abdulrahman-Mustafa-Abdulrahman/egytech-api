@@ -97,7 +97,7 @@ class Participants(ParticipantsQueryParams):
 
         participants_dict = response.json()["results"]
 
-        self.participants = pd.DataFrame.from_records(participants_dict)
+        self._participants = pd.DataFrame.from_records(participants_dict)
 
     def get_df(self):
         """Returns the pandas.DataFrame of the participants.
@@ -106,7 +106,7 @@ class Participants(ParticipantsQueryParams):
         -------
         pd.DataFrame
         """
-        return self.participants
+        return self._participants
 
     def save_csv(self, filename: str = "participants") -> None:
         """Saves the participants DataFrame to a CSV file.
@@ -121,7 +121,7 @@ class Participants(ParticipantsQueryParams):
         -------
         None
         """
-        self.participants.to_csv(filename + ".csv", index=False)
+        self._participants.to_csv(filename + ".csv", index=False)
 
     def save_excel(self, filename: str = "participants") -> None:
         """Saves the participants DataFrame to an Excel file.
@@ -136,7 +136,9 @@ class Participants(ParticipantsQueryParams):
         -------
         None
         """
-        self.participants.to_excel(filename + ".xlsx", index=False, engine="xlsxwriter")
+        self._participants.to_excel(
+            filename + ".xlsx", index=False, engine="xlsxwriter"
+        )
 
 
 class Stats(StatsQueryParams):
@@ -193,13 +195,12 @@ class Stats(StatsQueryParams):
     save_excel(filename: str="buckets")
         Saves the buckets DataFrame to an Excel file.
     """
-    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True, extra="forbid")
-    stats: Optional[Dict[str, str]] = Field(default=None, exclude=True)
-    buckets: Optional[pd.DataFrame] = Field(default=None, exclude=True)
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True, use_enum_values=True, extra="forbid"
     )
+    _stats: Optional[Dict[str, str]] = None
+    _buckets: Optional[pd.DataFrame] = None
 
     def model_post_init(self, __context: Any) -> None:
         """Placeholder that calls execute_call() on self with given query parameters after initialization of the
@@ -238,8 +239,10 @@ class Stats(StatsQueryParams):
 
         deser_response = response.json()
 
-        self.buckets = pd.DataFrame.from_records(deser_response["buckets"])
-        self.stats = deser_response["stats"]
+        self._buckets = pd.DataFrame.from_records(
+            deser_response["buckets"]
+        )
+        self._stats = deser_response["stats"]
 
     def get_stats(self):
         """Returns the statistics from the API Call.
@@ -249,7 +252,7 @@ class Stats(StatsQueryParams):
         Dict[str, str]
 
         """
-        return self.stats
+        return self._stats
 
     def get_df(self):
         """Returns the pandas.DataFrame of the buckets.
@@ -259,7 +262,7 @@ class Stats(StatsQueryParams):
         pd.DataFrame
 
         """
-        return self.buckets
+        return self._buckets
 
     def save_csv(self, filename: str) -> None:
         """Saves the buckets DataFrame to a CSV file.
@@ -275,7 +278,7 @@ class Stats(StatsQueryParams):
         None
 
         """
-        self.buckets.to_csv(filename + ".csv", index=False)
+        self._buckets.to_csv(filename + ".csv", index=False)
 
     def save_excel(self, filename: str) -> None:
         """Saves the buckets DataFrame to an Excel file.
@@ -291,7 +294,9 @@ class Stats(StatsQueryParams):
         None
 
         """
-        self.buckets.to_excel(filename + ".xlsx", index=False, engine="xlsxwriter")
+        self._buckets.to_excel(
+            filename + ".xlsx", index=False, engine="xlsxwriter"
+        )
 
 
 class PoolingClient(BaseModel):
@@ -301,18 +306,12 @@ class PoolingClient(BaseModel):
     ----------
     queries : list of `ParticipantsQueryParams`
         The list of query parameters for the participants endpoint.
-    dataframe : pd.DataFrame
-        The resulting pandas.DataFrame of the participants from the API Call.
+    _dataframe : pd.DataFrame
         The resulting pandas.DataFrame of the participants from the API Call. This can be accessed by calling the
         get_df() method on your instance of the class.
 
     Methods
     -------
-    model_post_init(__context: Any)
-        Placeholder that calls make_calls() after initialization of the proper
-        pydantic model for the available query parameters correctly.
-    make_calls()
-        Executes the API calls with the given query parameters.
     get_df()
         Returns the pandas.DataFrame of the aggregated participants from all the given queries.
     save_csv(filename: str="pooled_participants_results")
@@ -324,7 +323,7 @@ class PoolingClient(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
-    dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+    _dataframe: Optional[pd.DataFrame] = None
 
     def model_post_init(self, __context: Any) -> None:
         """Placeholder that calls make_calls() after initialization of the proper pydantic model for the
@@ -369,7 +368,7 @@ class PoolingClient(BaseModel):
                 deser_response = response.json()
                 responses.extend(list(deser_response.values())[-1])
 
-        self.dataframe = pd.DataFrame.from_records(responses)
+        self._dataframe = pd.DataFrame.from_records(responses)
 
     def get_df(self):
         """Returns the pandas.DataFrame of the aggregated participants from all the given queries.
@@ -379,7 +378,7 @@ class PoolingClient(BaseModel):
         pd.DataFrame
 
         """
-        return self.dataframe
+        return self._dataframe
 
     def save_csv(
             self, filename: str = "pooled_participants_results"
@@ -397,7 +396,7 @@ class PoolingClient(BaseModel):
         None
 
         """
-        self.dataframe.to_csv(filename + ".csv", index=False)
+        self._dataframe.to_csv(filename + ".csv", index=False)
 
     def save_excel(
             self, filename: str = "pooled_participants_results"
@@ -415,7 +414,9 @@ class PoolingClient(BaseModel):
         None
 
         """
-        self.dataframe.to_excel(filename + ".xlsx", index=False, engine="xlsxwriter")
+        self._dataframe.to_excel(
+            filename + ".xlsx", index=False, engine="xlsxwriter"
+        )
 
 
 class AsyncPoolingClient(BaseModel):
@@ -425,14 +426,12 @@ class AsyncPoolingClient(BaseModel):
     ----------
     queries : list of `ParticipantsQueryParams`
         The list of query parameters for the participants endpoint.
-    dataframe : pd.DataFrame
+    _dataframe : pd.DataFrame
         The resulting pandas.DataFrame of the participants from the API Call.
 
     Methods
     -------
     get_df()
-        Returns the pandas.DataFrame of the aggregated participants from all the given queries.
-    save_csv(filename: str)
         Returns the `pandas.DataFrame` of the aggregated participants from all the given queries.
     save_csv(filename: str = "pooled_async_participants_results")
         Saves the aggregated participants DataFrame to a CSV file.
@@ -443,7 +442,7 @@ class AsyncPoolingClient(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
-    dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+    _dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
 
     def model_post_init(self, __context: Any) -> None:
         """Placeholder that calls make_calls() after initialization of the proper pydantic model for the
@@ -463,11 +462,11 @@ class AsyncPoolingClient(BaseModel):
     async def make_calls(self):
         """Asynchronously Executes the API calls with the given query parameters.
 
-                Returns
-                -------
-                None
+        Returns
+        -------
+        None
 
-                """
+        """
 
         async def make_single_call(
                 query: ParticipantsQueryParams, c: httpx.AsyncClient
@@ -490,7 +489,7 @@ class AsyncPoolingClient(BaseModel):
         results = itertools.chain(*responses)
         await client.aclose()
 
-        self.dataframe = pd.DataFrame.from_records(results)
+        self._dataframe = pd.DataFrame.from_records(results)
 
     def get_df(self) -> pd.DataFrame:
         """Returns the pandas.DataFrame of the aggregated participants from all the given queries.
@@ -500,7 +499,7 @@ class AsyncPoolingClient(BaseModel):
         pd.DataFrame
 
         """
-        return self.dataframe
+        return self._dataframe
 
     def save_csv(self, filename: str) -> None:
         """Saves the aggregated participants DataFrame to a CSV file.
@@ -516,7 +515,7 @@ class AsyncPoolingClient(BaseModel):
         None
 
         """
-        self.dataframe.to_csv(filename + ".csv", index=False)
+        self._dataframe.to_csv(filename + ".csv", index=False)
 
     def save_excel(self, filename: str) -> None:
         """Saves the aggregated participants DataFrame to an Excel file.
@@ -532,4 +531,6 @@ class AsyncPoolingClient(BaseModel):
         None
 
         """
-        self.dataframe.to_excel(filename + ".xlsx", index=False, engine="xlsxwriter")
+        self._dataframe.to_excel(
+            filename + ".xlsx", index=False, engine="xlsxwriter"
+        )
