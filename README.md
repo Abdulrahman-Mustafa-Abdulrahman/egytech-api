@@ -70,3 +70,8 @@ and as a [demo notebook](https://deepnote.com/app/abdulrahmans-workspace/EgyTech
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details
+
+## Acknowledgements
+
+This Project uses the following libraries:
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
