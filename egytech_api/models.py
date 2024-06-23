@@ -123,30 +123,34 @@ class ParticipantsQueryParams(BaseModel):
 
     Attributes
     ----------
-    title : TitleEnum
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',\
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',\
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',\
+    'testing', 'ui_ux'}
         The job title of the participants.
-    level : LevelEnum
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',\
+    'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
-    min_yoe : int
-        The minimum years of experience of the participants. This is serialized as `yoe_from_included`.
-    max_yoe : int
-        The maximum years of experience of the participants. This is serialized as `yoe_to_excluded`.
-    gender : GenderEnum
+    min_yoe : int, optional
+        The minimum years of experience of the participants, must be greater than 0 and lower than 20.
+    max_yoe : int, optional
+        The maximum years of experience of the participants, must be greater than 1 and lower than 26.
+    gender : {None, 'male', 'female'}
         The gender of the participants.
-    cs_degree : DegreeType
+    cs_degree : bool, optional
         Whether the participants have a computer science degree.
-    business_market : BusinessMarketEnum
+    business_market : {None, 'global', 'regional', 'local'}
         The market scope of the business of the participants.
-    business_size : BusinessSizeEnum
+    business_size : {None, 'small', 'medium', 'large'}
         The size of the business of the participants.
-    business_focus : BusinessFocusEnum
+    business_focus : {None, 'product', 'software_house'}
         The focus of the business of the participants.
-    business_line : BusinessLineEnum
+    business_line : {None, 'b2b', 'b2c', 'both'}
         The line of business of the participants.
-    include_relocated : IncludeType
+    include_relocated : bool, optional
         Whether to include participants who have relocated.
-    include_remote_abroad : IncludeType
-        Whether to include participants who are remote abroad.
+    include_remote_abroad : bool, optional
+        Whether to include participants who are work remotely for companies abroad.
 
     """
 
@@ -174,32 +178,39 @@ class StatsQueryParams(ParticipantsQueryParams):
 
     Attributes
     ----------
-    title : TitleEnum
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',\
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',\
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',\
+    'testing', 'ui_ux'}
         The job title of the participants.
-    level : LevelEnum
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',\
+    'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
-    min_yoe : int
-        The minimum years of experience of the participants.
-    max_yoe : int
-        The maximum years of experience of the participants.
-    gender : GenderEnum
+    min_yoe : int, optional
+        The minimum years of experience of the participants, must be greater than 0 and lower than 20.
+    max_yoe : int, optional
+        The maximum years of experience of the participants, must be greater than 1 and lower than 26.
+    gender : {None, 'male', 'female'}
         The gender of the participants.
-    cs_degree : DegreeType
+    cs_degree : bool, optional
         Whether the participants have a computer science degree.
-    business_market : BusinessMarketEnum
+    business_market : {None, 'global', 'regional', 'local'}
         The market scope of the business of the participants.
-    business_size : BusinessSizeEnum
+    business_size : {None, 'small', 'medium', 'large'}
         The size of the business of the participants.
-    business_focus : BusinessFocusEnum
+    business_focus : {None, 'product', 'software_house'}
         The focus of the business of the participants.
-    business_line : BusinessLineEnum
+    business_line : {None, 'b2b', 'b2c', 'both'}
         The line of business of the participants.
-    include_relocated : IncludeType
+    include_relocated : bool, optional
         Whether to include participants who have relocated.
     include_remote_abroad : IncludeType
         Whether to include participants who are remote abroad.
+    include_remote_abroad : bool, optional
+        Whether to include participants who are work remotely for companies abroad.
 
-    programming_language : ProgrammingLanguageEnum
+    programming_language : {None, 'java_script', 'type_script', 'python', 'c_sharp', 'java', 'php', 'c_cplusplus',\
+    'kotlin', 'swift', 'dart', 'go', 'r', 'scala', 'rust'}
         The programming language of the participants.
 
     """
