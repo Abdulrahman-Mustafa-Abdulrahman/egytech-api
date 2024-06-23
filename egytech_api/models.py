@@ -204,8 +204,6 @@ class StatsQueryParams(ParticipantsQueryParams):
         The line of business of the participants.
     include_relocated : bool, optional
         Whether to include participants who have relocated.
-    include_remote_abroad : IncludeType
-        Whether to include participants who are remote abroad.
     include_remote_abroad : bool, optional
         Whether to include participants who are work remotely for companies abroad.
 
