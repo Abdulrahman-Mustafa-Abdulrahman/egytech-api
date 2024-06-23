@@ -18,4 +18,5 @@ jobs:
         with:
           python-version: 3.11
       - run: pip install mkdocs-material mkdocstrings[python]
+      - run: mkdocs build
       - run: mkdocs gh-deploy
