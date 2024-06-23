@@ -1,3 +1,3 @@
-from egytech_api.core import (AsyncPoolingClient, Participants, PoolingClient,
-                              Stats)
-from egytech_api.models import ParticipantsQueryParams, StatsQueryParams
+from core import (AsyncPoolingClient, Participants, PoolingClient,
+                  Stats)
+from models import ParticipantsQueryParams, StatsQueryParams
