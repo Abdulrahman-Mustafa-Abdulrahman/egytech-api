@@ -442,7 +442,7 @@ class AsyncPoolingClient(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
     queries: list[ParticipantsQueryParams] = Field(exclude=True)
-    _dataframe: Optional[pd.DataFrame] = Field(default=None, exclude=True)
+    _dataframe: Optional[pd.DataFrame] = None
 
     def model_post_init(self, __context: Any) -> None:
         """Placeholder that calls make_calls() after initialization of the proper pydantic model for the
