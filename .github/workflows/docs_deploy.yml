@@ -2,7 +2,7 @@ name: docs_deploy
 on:
   push:
     branches:
-      - master 
+      - master
 permissions:
   contents: write
 jobs:
@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - run: pip install mkdocs-material mkdocstrings[python]
-      - run: mkdocs build
+      - run: python -c "import os; print(os.listdir())"
       - run: mkdocs gh-deploy
