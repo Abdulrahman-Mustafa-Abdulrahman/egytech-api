@@ -6,7 +6,7 @@ import httpx
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field
 
-from egytech_api.models import ParticipantsQueryParams, StatsQueryParams
+from models import ParticipantsQueryParams, StatsQueryParams
 
 
 class Participants(ParticipantsQueryParams):
