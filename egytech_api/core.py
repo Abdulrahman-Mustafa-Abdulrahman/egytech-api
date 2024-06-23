@@ -14,12 +14,12 @@ class Participants(ParticipantsQueryParams):
 
     Attributes
     ----------
-    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',
-    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',
-    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',\
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',\
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',\
     'testing', 'ui_ux'}
         The job title of the participants.
-    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',\
     'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
     min_yoe : int, optional
@@ -146,12 +146,12 @@ class Stats(StatsQueryParams):
 
     Attributes
     ----------
-    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',
-    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',
-    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',
+    title : {None, 'ai_automation', 'backend', 'crm', 'data_analytics', 'data_engineer', 'data_scientist',\
+    'devops_sre_platform', 'embedded', 'engineering_manager', 'executive', 'frontend', 'fullstack', 'hardware',\
+    'mobile', 'product_manager', 'product_owner', 'research', 'scrum', 'security', 'system_arch', 'technical_support',\
     'testing', 'ui_ux'}
         The job title of the participants.
-    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',
+    level : {None, 'c_level', 'director', 'group_product_manager', 'intern', 'junior', 'manager', 'mid_level',\
     'principal', 'senior', 'senior_manager', 'senior_principal', 'senior_staff', 'staff', 'team_lead', 'vp'}
         The job level of the participants.
     min_yoe : int, optional
@@ -174,7 +174,7 @@ class Stats(StatsQueryParams):
         Whether to include participants who have relocated.
     include_remote_abroad : bool, optional
         Whether to include participants who are work remotely for companies abroad.
-    programming_language : {None, 'java_script', 'type_script', 'python', 'c_sharp', 'java', 'php', 'c_cplusplus',
+    programming_language : {None, 'java_script', 'type_script', 'python', 'c_sharp', 'java', 'php', 'c_cplusplus',\
     'kotlin', 'swift', 'dart', 'go', 'r', 'scala', 'rust'}
         The programming language of the participants.
     _stats : Dict[str, str]
